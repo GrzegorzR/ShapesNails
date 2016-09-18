@@ -22,7 +22,7 @@ function addPinableBodyType(Physics) {
                     this.state.vel = new Physics.vector(0, 0);
                     this.state.acc = new Physics.vector(0, 0);
                     this.calaculateRs();
-                    this.calcualteClosingVelPoint();
+                    //this.calcualteClosingVelPoint();
                     this.calculateMomentumOfForce();
                     this.updateAngularAcc();
                 }
@@ -37,27 +37,21 @@ function addPinableBodyType(Physics) {
                 this.pinned = true;
                 this.setOffSet(x, y, 2);
                 this.calaculateRs();
-                this.calculateDistancesR();
+                //this.calculateDistancesR();
                 this.calculateMomentumOfInertia();
             },
             unpin: function () {
                 this.pinned = false;
                 this.setOffSet(this.state.pos.x, this.state.pos.y, 1);
-                // this.state.old.pos = this.state.pos.clone();
                 var oldPos = this.nailr2.state.old.pos;
                 var newPos = this.nailr2.state.pos;
                 this.state.vel = Physics.vector((oldPos.x - newPos.x), (oldPos.y - newPos.y));
-                //this.state.vel = Physics.vector(0.3,-0.3);
                 this.state.angular.vel = this.state.angular.vel * 0.995;
-                //this.state.acc = Physics.vector(0, 0);
             },
             setOffSet: function (x, y, k) {
                 var old = this.aabb();
                 this.offset = Physics.vector(this.state.pos.x - x, this.state.pos.y - y);
                 var vec = Physics.vector((old.x - this.aabb().x) / k, (old.y - this.aabb().y) / k);
-                // console.log(vec.toString());
-                // vec = vec.rotate(this.state.angular.pos);
-                // console.log(vec.toString());
                 this.state.pos = this.state.pos.add(vec.x, vec.y);
             },
             calculateDistancesR: function () {
