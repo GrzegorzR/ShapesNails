@@ -1,0 +1,1 @@
+{"version":3,"file":"CustomIntegrator.js","sourceRoot":"","sources":["CustomIntegrator.ts"],"names":[],"mappings":"AAAA,OAAO,CAAC,MAAM,CAAC;IACX,OAAO,EAAE,6DAA6D;IACtE,QAAQ,EAAE;QACN;YACI,IAAI,EAAE,WAAW;YACjB,QAAQ,EAAE,mBAAmB;YAC7B,IAAI,EAAE,oBAAoB;SAC7B;KACJ;CACJ,CAAC,CAAC"}
