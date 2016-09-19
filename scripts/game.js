@@ -53,6 +53,11 @@ function initWorld(world, Physics) {
     // add behaviors to the world
     world.add([
         Physics.behavior('constant-acceleration', { acc: { x: 0, y: 0.004 } }),
+        Physics.behavior('body-impulse-response'),
+        Physics.behavior('body-collision-detection'),
+        Physics.behavior('sweep-prune'),
+        Physics.behavior('verlet-constraints'),
+        edgeBounce
     ]);
 }
 function startWorld(world, Physics) {
@@ -61,33 +66,28 @@ function startWorld(world, Physics) {
         world.step(time);
     });
 }
-//
-// Add some interaction
-//
 function addInteraction(world, Physics) {
-    // add the mouse interaction
     world.add(Physics.behavior('interactive', { el: world.renderer().container }));
-    // add some fun extra interaction
     var attractor = Physics.behavior('attractor', {
         order: 0,
         strength: 0.002
     });
     /*
-    world.on({
-        'interact:poke': function( pos ){
-            world.wakeUpAll();
-            attractor.position( pos );
-            world.add( attractor );
-        }
-        ,'interact:move': function( pos ){
-            attractor.position( pos );
-        }
-        ,'interact:release': function(){
-            world.wakeUpAll();
-            world.remove( attractor );
-        }
-    });
-    */
+     world.on({
+     'interact:poke': function( pos ){
+     world.wakeUpAll();
+     attractor.position( pos );
+     world.add( attractor );
+     }
+     ,'interact:move': function( pos ){
+     attractor.position( pos );
+     }
+     ,'interact:release': function(){
+     world.wakeUpAll();
+     world.remove( attractor );
+     }
+     });
+     */
 }
 function addBehaviour(world, Physics) {
     var beh = Physics.behavior('pinable-behavior');
@@ -102,18 +102,17 @@ function addCustomTypes(world, Physics) {
 }
 function addPinableBody(world, Physics, xpos, ypos, xpin, ypin) {
     var nail = Physics.body('circle', { x: 40, y: 30, radius: 2 });
-    var nail = Physics.body('circle', { x: 40, y: 30, radius: 2 });
     var myWheel1 = Physics.body('circle', { x: 40, y: 30, radius: 2 });
     var myWheel2 = Physics.body('circle', { x: 40, y: 30, radius: 2 });
     var pinable = Physics.body('pinablebody', { x: xpos, y: ypos, width: 200, height: 30, mass: 5 });
     pinable.state.angular.acc = 0.05;
-    pinable.nail = nail;
-    pinable.nailr1 = myWheel1;
-    pinable.nailr2 = myWheel2;
+    //pinable.nail = nail;
+    //pinable.nailr1 = myWheel1;
+    //pinable.nailr2 = myWheel2;
     world.add(pinable);
-    world.add(nail);
-    world.add(myWheel1);
-    world.add(myWheel2);
+    //world.add(nail);
+    //world.add(myWheel1);
+    //world.add(myWheel2);
     pinable.pin(xpin, ypin);
     world.on({
         'interact:poke': function (pos) {
@@ -123,7 +122,7 @@ function addPinableBody(world, Physics, xpos, ypos, xpin, ypin) {
     });
 }
 function addBodies(world, Physics) {
-    addPinableBody(world, Physics, 200, 400, 260, 410);
+    addPinableBody(world, Physics, 200, 400, 140, 410);
     // addPinableBody(world,Physics,400,400,400,450);
 }
 require([
