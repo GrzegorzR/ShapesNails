@@ -94,7 +94,7 @@ function addPinableBodyType(Physics) {
                 this.MI = (this.edgeMass * (dist1 * dist1 + dist2 * dist2));
             },
             calculateMomentumOfForce: function () {
-                var gravity = -9.8;
+                var gravity = -100;
                 var rVec1 = Physics.vector(this.rs[0].x - this.state.pos.x, this.rs[0].y - this.state.pos.y);
                 var rVec2 = Physics.vector(this.rs[1].x - this.state.pos.x, this.rs[1].y - this.state.pos.y);
                 var r1F = rVec1.cross(Physics.vector(0, gravity));

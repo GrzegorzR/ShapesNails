@@ -105,7 +105,6 @@ function addPinableBody(world, Physics, xpos, ypos, xpin, ypin) {
     var myWheel1 = Physics.body('circle', { x: 40, y: 30, radius: 2 });
     var myWheel2 = Physics.body('circle', { x: 40, y: 30, radius: 2 });
     var pinable = Physics.body('pinablebody', { x: xpos, y: ypos, width: 200, height: 30, mass: 5 });
-    pinable.state.angular.acc = 0.05;
     //pinable.nail = nail;
     //pinable.nailr1 = myWheel1;
     //pinable.nailr2 = myWheel2;
@@ -113,6 +112,19 @@ function addPinableBody(world, Physics, xpos, ypos, xpin, ypin) {
     //world.add(nail);
     //world.add(myWheel1);
     //world.add(myWheel2);
+    document.addEventListener('keydown', function (e) {
+        switch (e.keyCode) {
+            case 65:
+                pinable.state.angular.acc += 0.001;
+                break;
+            case 68:
+                pinable.state.angular.acc -= 0.001;
+                break;
+            case 75:
+                pinable.unpin();
+                break;
+        }
+    });
     pinable.pin(xpin, ypin);
     world.on({
         'interact:poke': function (pos) {
@@ -122,7 +134,7 @@ function addPinableBody(world, Physics, xpos, ypos, xpin, ypin) {
     });
 }
 function addBodies(world, Physics) {
-    addPinableBody(world, Physics, 200, 400, 140, 410);
+    addPinableBody(world, Physics, 500, 400, 540, 400);
     // addPinableBody(world,Physics,400,400,400,450);
 }
 require([
