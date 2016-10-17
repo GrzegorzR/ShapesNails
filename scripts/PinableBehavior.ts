@@ -2,7 +2,7 @@
 
 
 
-function addPinableBehaviorType(Physics : any) {
+function addPinableBehaviorType(Physics : any, world: any) {
 
     Physics.behavior('pinable-behavior', function (parent) {
 
@@ -18,26 +18,16 @@ function addPinableBehaviorType(Physics : any) {
 
 
             },
-
-
-            // extended
             behave: function (data) {
-
                 var bodies = this.getTargets();
-
                 for (var i = 0, l = bodies.length; i < l; ++i) {
                     if(bodies[i].name === "pinablebody") {
-                       // bodies[i].state.vel = Physics.vector(0, 0);
                         bodies[i].update();
-
-                        if(  bodies[i].state.pos.x > 850) {
-                           // var a = bodies[i].state.vel.clone();
-                          // bodies[i].pin(bodies[i].state.pos.x +50,bodies[i].state.pos.y);
-                           // bodies[i].state.vel = Physics.vector(0, 0);
-
-                        }
-                        else{
-                          //  bodies[i].pin(bodies[i].state.pos.x ,bodies[i].state.pos.y);
+                        var absVel = Math.abs( bodies[i].state.vel.x) + Math.abs( bodies[i].state.vel.y);'' +
+                        console.log(absVel);
+                        if( absVel < 0.0075 && bodies[i].pinned === false ) {
+                            world.remove(bodies[i]);
+                            addPinableBody(world, Physics, 200, 400, 245, 400);
                         }
                     }
                 }

@@ -10,12 +10,19 @@ var colors = [
 function initWorld(world, Physics) {
 
     // bounds of the window
-    var viewWidth = window.innerWidth
-        , viewHeight = window.innerHeight
-        , viewportBounds = Physics.aabb(0, 0, window.innerWidth, window.innerHeight)
+    var viewWidth = 800
+        , viewHeight = 800
+        , viewportBounds = Physics.aabb(0, 0, 1200, 600)
         , edgeBounce
         , renderer
         , styles = {
+            'pinablebody': {
+                //src: 'http://i.imgur.com/4cJwbhX.png',
+                fillStyle: colors[4][0],
+                lineWidth: 1,
+                strokeStyle: colors[0][1],
+                angleIndicator: colors[0][1]
+            },
             'circle': {
                 //src: 'http://i.imgur.com/4cJwbhX.png',
                 fillStyle: colors[0][0],
@@ -39,7 +46,7 @@ function initWorld(world, Physics) {
         ;
 
     // create a renderer
-    renderer = Physics.renderer('pixi', {el: 'viewport', styles: styles});
+    renderer = Physics.renderer('pixi', {el: 'viewport', styles: styles, width: 1200, height: 600});
     // add the renderer
     world.add(renderer);
     // render on each step
@@ -122,53 +129,46 @@ function makeBody(obj) {
 
 function addCustomTypes(world, Physics) {
     addPinableBodyType(Physics);
-    addPinableBehaviorType(Physics);
+    addPinableBehaviorType(Physics, world);
 }
-function addPinableBody(world, Physics, xpos, ypos, xpin, ypin) {
-    var nail = Physics.body('circle', {x: 40, y: 30, radius: 2});
-    var myWheel1 = Physics.body('circle', {x: 40, y: 30, radius: 2});
-    var myWheel2 = Physics.body('circle', {x: 40, y: 30, radius: 2});
-
-    var pinable = Physics.body('pinablebody', {x: xpos, y: ypos, width: 200, height: 30, mass: 5});
 
 
+function addHouse(world:any, Physics:any) {
 
-    //pinable.nail = nail;
-    //pinable.nailr1 = myWheel1;
-    //pinable.nailr2 = myWheel2;
+    var rect = Physics.body('rectangle', {x:800, y: 600, width: 30, height: 200, mass : 2});
+    var rect2 = Physics.body('rectangle', {x: 950, y: 600, width: 30, height: 200, mass : 2});
+    var rect3 = Physics.body('rectangle', {x: 875, y: 400, width: 250, height: 30, mass : 2});
+    var rect4 = Physics.body('rectangle', {x:800, y: 370, width: 30, height: 100, mass : 2});
+    var rect5 = Physics.body('rectangle', {x: 950, y: 370, width: 30, height: 100, mass : 2});
+    var pentagon = Physics.body('convex-polygon', {
+        mass: 1,
+        x: 875,
+        y: 300,
+        vertices: [
+            { x: 0, y: 0 },
+            { x: 280, y: 0 },
+            { x: 140, y: -100 }
 
-    world.add(pinable);
-    //world.add(nail);
-    //world.add(myWheel1);
-    //world.add(myWheel2);
-    document.addEventListener('keydown', function (e) {
-
-        switch (e.keyCode) {
-            case 65:
-                pinable.state.angular.acc += 0.001;
-                break;
-            case 68:
-                pinable.state.angular.acc -= 0.001;
-                break;
-            case 75:
-                pinable.unpin();
-                break;
-        }
+        ]
     });
-    pinable.pin(xpin, ypin);
-    world.on({
-        'interact:poke': function (pos) {
-            // addPinableBody(world, Physics, xpos, ypos, xpin, ypin )
-            pinable.unpin();
-        }
-    });
+
+    world.add(rect);
+    world.add(rect2);
+    world.add(rect3);
+    world.add(rect4);
+    world.add(rect5);
+    world.add(pentagon);
+
 
 
 }
+
+
 
 function addBodies(world, Physics) {
 
-    addPinableBody(world, Physics, 500, 400, 540, 400);
+    addPinableBody(world, Physics, 200, 400, 245, 400);
+    addHouse(world, Physics);
     // addPinableBody(world,Physics,400,400,400,450);
 
 
@@ -192,7 +192,7 @@ require([
         // is sleeping disabled?
         sleepDisabled: false,
         // speed at which bodies wake up
-        sleepSpeedLimit: 1,
+        sleepSpeedLimit: 0.1,
         // variance in position below which bodies fall asleep
         sleepVarianceLimit: 0,
         // time (ms) before sleepy bodies fall asleep
